@@ -7,10 +7,10 @@ import java.io.FileReader;
 
 public class FileProcessor {
 	
-	public void FileSearch(String file_name, String input) {
+	public static int FileSearch(String file_name, String input) {
 		
 		int count = 0;
-		String s;
+		String line;
 		String[] words = null;
 		File file = new File(file_name);
 		FileReader reader = null;
@@ -24,25 +24,18 @@ public class FileProcessor {
 		BufferedReader breader = new BufferedReader(reader);
 		
 		try {
-			while((s = breader.readLine()) != null)
+			while((line = breader.readLine()) != null)
 			{
-				words = s.split(" ");
+				words = line.split(" ");
 				for (String word : words)
 				{
-					if (s.equals(input))
+					if (line.equals(input))
 					{
 						count++;
 					}
 				}
 			}
-			if (count != 0)
-			{
-				System.out.println(file_name + "has " + count + input);
-			}
-			if (count == 0)
-			{
-				System.out.println(file_name + "does not have " + input);
-			}
+			
 			
 			reader.close();
 			
@@ -50,6 +43,8 @@ public class FileProcessor {
 			// TODO: handle exception
 			System.out.println("Error: search failed");
 		}
+		
+		return count;
 	}
 	
 }
