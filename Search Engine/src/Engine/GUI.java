@@ -1,23 +1,28 @@
+/* 
+ * GUI class
+ * Creation of the GUI: buttons, text fields and message window.
+ * From here we call other two classes for selection of the file and
+ * the search engine itself
+ */
+
 package Engine;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
-
 
 public class GUI extends JFrame implements ActionListener {
 	
-	JFrame frame = new JFrame("Search Engine");
-	JButton button1 = new JButton("Search");
-	JButton button2 = new JButton("Select files");
-	JTextField text1 = new JTextField("enter the phrase");
-	//ArrayList<String> inputFiles = new ArrayList<String>();
-	String inputFile;
+	// Creating the window with JFrame
+	JFrame frame = new JFrame("Search Engine"); // window itself
+	JButton button1 = new JButton("Search"); // search button
+	JButton button2 = new JButton("Select files"); // select file button
+	JTextField text1 = new JTextField("enter the phrase"); // text field fro searched word
+	String inputFile; // variable for the word that user entered
 	
 	
-	public GUI() {
+	public GUI() { // method initialising GUI
 		
 		Frame();
 		TextToSearch();
@@ -25,7 +30,7 @@ public class GUI extends JFrame implements ActionListener {
 		SearchButton();		
 	}
 	
-	public void Frame()
+	public void Frame() // method for frame creation
 	{
 		frame.setSize(500,500);
 		frame.getContentPane().setLayout(null);
@@ -33,7 +38,7 @@ public class GUI extends JFrame implements ActionListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	public void TextToSearch()
+	public void TextToSearch() // method for text field creation
 	{
 	    frame.add(text1);
 	    text1.setVisible(true);
@@ -41,6 +46,7 @@ public class GUI extends JFrame implements ActionListener {
 	    text1.addActionListener(this);
 	}
 	
+	// next two methods create both search and select buttons
 	public void SelectFilesButton()
 	{
 	    frame.add(button2);
@@ -58,28 +64,32 @@ public class GUI extends JFrame implements ActionListener {
 	    button1.setActionCommand("SearchText");
 	    button1.addActionListener(this);
 	}
-
+	
+	
+	// Action Listener method 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		String command = e.getActionCommand();
+		String command = e.getActionCommand(); 
 		String input;
 		int wordcount = 0;
 		
+		// statement for the select files button being pressed
 		if (command.equals("SelectFiles"))
 		{
-			this.inputFile = SelectFiles.FileChooser();
+			this.inputFile = SelectFiles.FileChooser(); // calling FileChooser method from SelectFiles class
 			
-			System.out.println(this.inputFile);
-			//System.out.println(this.inputFiles.size());
+			System.out.println(this.inputFile); // checker if it was succesful, displays path of the file
 		}
 		
+		// statement for the search button being pressed
 		if (command.equals("SearchText"))
 		{
-			input = text1.getText();
+			input = text1.getText(); // reading the user's input
 			
-			System.out.println(input);
+			System.out.println(input); // check if its succesful
 			
+			// initializing searching method from FileProcessor class
 			try {
 				wordcount = FileProcessor.FileSearch(this.inputFile, input);
 			} catch (IOException e1) {
@@ -87,7 +97,7 @@ public class GUI extends JFrame implements ActionListener {
 				e1.printStackTrace();
 				System.out.println("search not started");
 			}
-			
+			// display the result of searching
 			JOptionPane.showMessageDialog(frame, "Word is present " + wordcount + " times in given file");
 		}
 	}
