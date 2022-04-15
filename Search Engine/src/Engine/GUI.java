@@ -1,9 +1,9 @@
 package Engine;
 
 import javax.swing.*;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -13,6 +13,8 @@ public class GUI extends JFrame implements ActionListener {
 	JButton button1 = new JButton("Search");
 	JButton button2 = new JButton("Select files");
 	JTextField text1 = new JTextField("enter the phrase");
+	//ArrayList<String> inputFiles = new ArrayList<String>();
+	String inputFile;
 	
 	
 	public GUI() {
@@ -62,18 +64,31 @@ public class GUI extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		String command = e.getActionCommand();
 		String input;
-		ArrayList<String> inputFiles = new ArrayList<String>();
+		int wordcount = 0;
 		
 		if (command.equals("SelectFiles"))
 		{
-			inputFiles = SelectFiles.FileChooser();
+			this.inputFile = SelectFiles.FileChooser();
+			
+			System.out.println(this.inputFile);
+			//System.out.println(this.inputFiles.size());
 		}
 		
 		if (command.equals("SearchText"))
 		{
 			input = text1.getText();
 			
+			System.out.println(input);
 			
+			try {
+				wordcount = FileProcessor.FileSearch(this.inputFile, input);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.out.println("search not started");
+			}
+			
+			JOptionPane.showMessageDialog(frame, "Word is present " + wordcount + " times in given file");
 		}
 	}
 }

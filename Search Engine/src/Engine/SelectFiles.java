@@ -1,17 +1,18 @@
 package Engine;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+
+
+
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 
 public class SelectFiles {
 	
-	public static ArrayList<String> FileChooser() {
+	public static String FileChooser() {
 		
-		ArrayList<String> selectedFiles = new ArrayList<String>();
+		
+		String filePath = null;
 		 
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		jfc.setVisible(true);
@@ -22,15 +23,10 @@ public class SelectFiles {
 		int returnValue = jfc.showOpenDialog(null);
 		
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File[] files = jfc.getSelectedFiles();
+			filePath = jfc.getSelectedFile().getAbsolutePath();
 			
-			Arrays.asList(files).forEach(x -> {
-				if (x.isFile()) {	
-					selectedFiles.add(x.getName());
-				}
-			});
 		}
 		
-		return selectedFiles;
+		return filePath;
 	}		
 }
